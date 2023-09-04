@@ -23,8 +23,12 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const CategoryWidget(
-                  title: "RANDOM",
+                //TODOdüzelecek
+                const Padding(
+                  padding: EdgeInsets.only(bottom: 8.0),
+                  child: CategoryWidget(
+                    title: "RANDOM CARD",
+                  ),
                 ),
                 Expanded(
                   child: Row(
@@ -34,15 +38,28 @@ class _HomePageState extends State<HomePage> {
                           width: screenWidth / 6, child: const Placeholder()),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        //mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           randomCardNameText(),
-                          randomCardPropertyText("Live- Human"),
-                          randomCardPropertyText("Female"),
-                          randomCardPropertyText("Last Seen:"),
+                          Row(
+                            children: [
+                              const CircleAvatar(
+                                backgroundColor: Colors.red,
+                                radius: 5,
+                              ),
+                              randomCardPropertyText("Live-Human-Female"),
+                            ],
+                          ),
+                          Padding(
+                            padding: RnMPaddings.mainTopPadding,
+                            child: randomCardPropertyText("First Seen:"),
+                          ),
                           randomCardPropertyText("Boston"),
-                          randomCardPropertyText("First Seen:"),
-                          randomCardPropertyText("Corum"),
+                          Padding(
+                            padding: RnMPaddings.mainTopPadding,
+                            child: randomCardPropertyText("Last Seen:"),
+                          ),
+                          randomCardPropertyText("Çorum"),
                         ],
                       )
                     ],
@@ -66,7 +83,7 @@ class _HomePageState extends State<HomePage> {
     return Text(
       text,
       style: TextStyle(
-        fontSize: 20,
+        fontSize: 18,
         color: color,
         fontWeight: FontWeight.w500,
       ),

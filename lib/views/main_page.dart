@@ -66,4 +66,4 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
   }
 }
 
-enum _MyTabViews { home, settings }
+enum _MyTabViews { home, discover }
