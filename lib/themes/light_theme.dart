@@ -3,14 +3,14 @@ import 'package:rick_morty/themes/colors.dart';
 
 class RickandMortyLightTheme {
   static final lightTheme = ThemeData(
-      tabBarTheme: TabBarTheme(indicatorColor: Colors.red),
+      //   tabBarTheme: const TabBarTheme(indicatorColor: Colors.red),
       bottomAppBarTheme: const BottomAppBarTheme(
-        color: RickAndMortyAppColors.paleCornflowerBlue,
+        color: RnMColors.paleCornflowerBlue,
       ),
       // primaryColor: RickAndMortyAppColors.paleCornflowerBlue,
       appBarTheme: const AppBarTheme(
           titleTextStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
-          backgroundColor: RickAndMortyAppColors.paleCornflowerBlue),
+          backgroundColor: RnMColors.paleCornflowerBlue),
       floatingActionButtonTheme: const FloatingActionButtonThemeData(
-          backgroundColor: RickAndMortyAppColors.paleCornflowerBlue));
+          backgroundColor: RnMColors.paleCornflowerBlue));
 }
