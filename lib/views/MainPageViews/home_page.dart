@@ -16,14 +16,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String _unkown = "UNKOWN";
   List<Character>? _characters = [];
 
-  late final ICharacterService _postService;
+  late final ICharacterService _postService = CharacterService();
 
   @override
   void initState() {
     super.initState();
-    _postService = CharacterService();
+    //   _postService = CharacterService();
     _charactersSet();
   }
 
@@ -45,7 +46,20 @@ class _HomePageState extends State<HomePage> {
           Expanded(
             flex: 5,
             child: Container(
-              color: Colors.blue,
+              //   color: Colors.blue,
+              child: PageView.builder(
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SizedBox(
+                      height: 30,
+                      width: 30,
+                      child: Image.network(_characters![index].image!),
+                    ),
+                  );
+                },
+                itemCount: 5, // Can be null
+              ),
             ),
           ),
         ],
@@ -53,21 +67,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-/*
-  Future<void> fetchPostItems() async {
-    final response = await Dio().get('${_baseUrl}character');
-
-    if (response.statusCode == HttpStatus.ok) {
-      final _datas = response.data;
-      if (_datas is List) {
-        print(_datas);
-        setState(() {
-          _characters = _datas.map((e) => Character.fromJson(e)).toList();
-        });
-      }
-    }
-  }
-*/
   Padding randomCardWidget(double screenWidth) {
     return Padding(
       padding: RnMPaddings.mainPadding,
@@ -90,7 +89,7 @@ class _HomePageState extends State<HomePage> {
                 SizedBox(
                     height: screenWidth / 4,
                     width: screenWidth / 4,
-                    child: const Placeholder()),
+                    child: Image.network(_characters![0].image!)),
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.only(left: 8.0),
@@ -103,23 +102,24 @@ class _HomePageState extends State<HomePage> {
                             Expanded(
                                 child: SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
-                              child: randomCardNameText("aasdasdsada"),
+                              child: randomCardNameText(
+                                  _characters![0].name ?? _unkown),
                             )),
                           ],
                         ),
-                        Row(
-                          children: [
-                            const CircleAvatar(
-                              backgroundColor: Colors.red,
-                              radius: 5,
-                            ),
-                            randomCardPropertyText("Live"),
-                          ],
+                        StatusWidget(
+                          status: _characters![0].status ?? _unkown,
                         ),
-                        randomCardPropertyText("species"),
-                        randomCardPropertyText("type"),
-                        randomCardPropertyText("gender"),
-                        randomCardPropertyText("origin"),
+                        randomCardPropertyText(
+                            _characters![0].gender ?? _unkown),
+                        randomCardPropertyText(
+                            _characters![0].species ?? _unkown),
+                        randomCardPropertyText(_characters![0].type == ""
+                            ? _unkown
+                            : _characters![0].type!),
+                        randomCardPropertyText((_characters![0].origin != null)
+                            ? (_characters![0].origin!.name ?? _unkown)
+                            : _unkown),
                       ],
                     ),
                   ),
@@ -152,6 +152,33 @@ class _HomePageState extends State<HomePage> {
           color: Colors.black,
           fontSize: 18,
           fontWeight: FontWeight.bold),
+    );
+  }
+}
+
+class StatusWidget extends StatelessWidget {
+  const StatusWidget({
+    super.key,
+    required this.status,
+  });
+  final String status;
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        CircleAvatar(
+          backgroundColor: status == "Alive" ? Colors.green : Colors.red,
+          radius: 5,
+        ),
+        Text(
+          status,
+          style: const TextStyle(
+            fontSize: 18,
+            //color: color,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ],
     );
   }
 }

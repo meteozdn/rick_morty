@@ -12,7 +12,7 @@ class CharacterService implements ICharacterService {
   final Dio _dio;
   CharacterService()
       : _dio = Dio(BaseOptions(baseUrl: 'https://rickandmortyapi.com/api/'));
-
+  List<Character> _character = [];
   @override
   Future<List<Character>?> fetchCharacters() async {
     try {
@@ -20,10 +20,11 @@ class CharacterService implements ICharacterService {
 
       if (response.statusCode == HttpStatus.ok) {
         final datas = response.data;
-        //    print(_datas.map.runtimeType);
         if (datas["results"] is List) {
-          //    print(_datas["results"].map());
-          //   return _datas["results"].map((e) => Character.fromJson(e)).toList();
+          _character = (datas["results"] as List)
+              .map((e) => Character.fromJson(e))
+              .toList();
+          return _character;
         }
       }
     } on DioError catch (exception) {
