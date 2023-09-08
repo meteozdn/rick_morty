@@ -16,6 +16,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  bool _isLoading = false;
   String _unkown = "UNKOWN";
   List<Character>? _characters = [];
 
@@ -24,12 +25,20 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    //   _postService = CharacterService();
     _charactersSet();
   }
 
   Future<void> _charactersSet() async {
+    _changeLoading();
     _characters = await _postService.fetchCharacters();
+    _changeLoading();
+    setState(() {});
+  }
+
+  void _changeLoading() {
+    setState(() {
+      _isLoading = !_isLoading;
+    });
   }
 
   @override
@@ -41,25 +50,29 @@ class _HomePageState extends State<HomePage> {
         children: [
           Expanded(
             flex: 4,
-            child: randomCardWidget(screenWidth),
+            child: _isLoading
+                ? const CircularProgressIndicator.adaptive()
+                : randomCardWidget(screenWidth, _characters![8]),
           ),
           Expanded(
             flex: 5,
-            child: Container(
-              //   color: Colors.blue,
-              child: PageView.builder(
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SizedBox(
-                      height: 30,
-                      width: 30,
-                      child: Image.network(_characters![index].image!),
-                    ),
-                  );
-                },
-                itemCount: 5, // Can be null
-              ),
+            child: PageView.builder(
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: _isLoading
+                      ? const CircularProgressIndicator.adaptive()
+                      : Column(
+                          children: [
+                            SizedBox(
+                                height: screenWidth / 3,
+                                child:
+                                    Image.network(_characters![index].image!)),
+                          ],
+                        ),
+                );
+              },
+              itemCount: _characters!.length, // Can be null
             ),
           ),
         ],
@@ -67,7 +80,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Padding randomCardWidget(double screenWidth) {
+  Padding randomCardWidget(double screenWidth, Character character) {
     return Padding(
       padding: RnMPaddings.mainPadding,
       child: Column(
@@ -89,7 +102,7 @@ class _HomePageState extends State<HomePage> {
                 SizedBox(
                     height: screenWidth / 4,
                     width: screenWidth / 4,
-                    child: Image.network(_characters![0].image!)),
+                    child: Image.network(character.image!)),
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.only(left: 8.0),
@@ -102,23 +115,18 @@ class _HomePageState extends State<HomePage> {
                             Expanded(
                                 child: SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
-                              child: randomCardNameText(
-                                  _characters![0].name ?? _unkown),
+                              child:
+                                  randomCardNameText(character.name ?? _unkown),
                             )),
                           ],
                         ),
                         StatusWidget(
-                          status: _characters![0].status ?? _unkown,
+                          status: character.status ?? _unkown,
                         ),
-                        randomCardPropertyText(
-                            _characters![0].gender ?? _unkown),
-                        randomCardPropertyText(
-                            _characters![0].species ?? _unkown),
-                        randomCardPropertyText(_characters![0].type == ""
-                            ? _unkown
-                            : _characters![0].type!),
-                        randomCardPropertyText((_characters![0].origin != null)
-                            ? (_characters![0].origin!.name ?? _unkown)
+                        randomCardPropertyText(character.gender ?? _unkown),
+                        randomCardPropertyText(character.species ?? _unkown),
+                        randomCardPropertyText((character.origin != null)
+                            ? (character.origin!.name ?? _unkown)
                             : _unkown),
                       ],
                     ),

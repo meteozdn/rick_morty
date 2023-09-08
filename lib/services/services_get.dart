@@ -27,7 +27,8 @@ class CharacterService implements ICharacterService {
           return _character;
         }
       }
-    } on DioError catch (exception) {
+      // ignore: deprecated_member_use
+    } on DioError {
       //  _ShowDebug.showDioError(exception, this);
     }
     return null;
