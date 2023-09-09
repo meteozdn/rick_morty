@@ -52,11 +52,12 @@ class _HomePageState extends State<HomePage> {
             flex: 4,
             child: _isLoading
                 ? const CircularProgressIndicator.adaptive()
-                : randomCardWidget(screenWidth, _characters![8]),
+                : randomCardWidget(screenWidth, _characters![0]),
           ),
           Expanded(
             flex: 5,
             child: PageView.builder(
+              controller: PageController(viewportFraction: 0.7),
               itemBuilder: (context, index) {
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -64,6 +65,8 @@ class _HomePageState extends State<HomePage> {
                       ? const CircularProgressIndicator.adaptive()
                       : Column(
                           children: [
+                            randomCardNameText(
+                                _characters![index].name ?? _unkown),
                             SizedBox(
                                 height: screenWidth / 3,
                                 child:
