@@ -3,6 +3,8 @@ import 'package:rick_morty/constants/paddings.dart';
 import 'package:rick_morty/themes/colors.dart';
 import 'package:rick_morty/views/MainPageViews/home_page.dart';
 
+import 'MainPageViews/discover_page.dart';
+
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
 
@@ -71,7 +73,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
     return TabBarView(
         //  physics: const NeverScrollableScrollPhysics(),
         controller: _tabController,
-        children: const [HomePage(), HomePage()]);
+        children: const [HomePage(), DiscoverPage()]);
   }
 }
 

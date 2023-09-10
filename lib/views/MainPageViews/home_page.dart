@@ -18,6 +18,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   bool _isLoading = false;
   String _unkown = "UNKOWN";
+  int _selectedIndex = 0;
+
   List<Character>? _characters = [];
 
   late final ICharacterService _postService = CharacterService();
@@ -52,26 +54,49 @@ class _HomePageState extends State<HomePage> {
             flex: 4,
             child: _isLoading
                 ? const CircularProgressIndicator.adaptive()
-                : randomCardWidget(screenWidth, _characters![0]),
+                : randomCardWidget(screenWidth, _characters![8]),
+          ),
+          const Divider(
+            color: Colors.black,
           ),
           Expanded(
             flex: 5,
             child: PageView.builder(
+              onPageChanged: (index) {
+                setState(() {
+                  _selectedIndex = index;
+                });
+              },
               controller: PageController(viewportFraction: 0.7),
               itemBuilder: (context, index) {
+                var _scale = _selectedIndex == index ? 1.0 : 0.8;
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: _isLoading
                       ? const CircularProgressIndicator.adaptive()
-                      : Column(
-                          children: [
-                            randomCardNameText(
-                                _characters![index].name ?? _unkown),
-                            SizedBox(
-                                height: screenWidth / 3,
-                                child:
-                                    Image.network(_characters![index].image!)),
-                          ],
+                      : TweenAnimationBuilder(
+                          tween: Tween(begin: _scale, end: _scale),
+                          duration: const Duration(milliseconds: 200),
+                          builder: (context, value, child) {
+                            return Transform.scale(
+                              scale: value,
+                              child: child,
+                            );
+                          },
+                          child: Column(
+                            children: [
+                              randomCardNameText(
+                                  _characters![index].name ?? _unkown),
+                              Container(
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                        width: 5,
+                                      ),
+                                      borderRadius: BorderRadius.circular(8)),
+                                  child: Image.network(
+                                      _characters![index].image!)),
+                            ],
+                          ),
                         ),
                 );
               },
