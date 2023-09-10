@@ -124,8 +124,6 @@ class _HomePageState extends State<HomePage> {
           SizedBox(
             height: screenWidth / 4,
             child: Row(
-              //   crossAxisAlignment: CrossAxisAlignment.start,
-              //  mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SizedBox(
                     height: screenWidth / 4,

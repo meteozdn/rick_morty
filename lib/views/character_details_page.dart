@@ -26,29 +26,111 @@ class CharacterDetails extends StatelessWidget {
             ),
           ],
         ),
-        body: Center(
-          child: Padding(
-            padding: RnMPaddings.mainPadding,
-            child: Column(
-              children: [
-                Container(
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                          width: 5,
+        body: SingleChildScrollView(
+          child: Center(
+            child: Padding(
+              padding: RnMPaddings.mainPadding,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Column(
+                    children: [
+                      Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                width: 5,
+                              ),
+                              borderRadius: BorderRadius.circular(8)),
+                          child: SizedBox(
+                            //height: 500,
+                            width: 500,
+                            child: Image.network(
+                              character.image!,
+                              fit: BoxFit.fill,
+                            ),
+                          )),
+                      Padding(
+                        padding: RnMPaddings.mainTopPadding,
+                        child: Text(
+                          character.name!,
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 25),
                         ),
-                        borderRadius: BorderRadius.circular(8)),
-                    child: Image.network(character.image!)),
-                Padding(
-                  padding: RnMPaddings.mainTopPadding,
-                  child: Text(
-                    character.name!,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 25),
+                      ),
+                    ],
                   ),
-                ),
-              ],
+                  Padding(
+                    padding: RnMPaddings.mainTopPadding,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CharacterPropertiesText(
+                          state: character.status!,
+                          property: "Status",
+                        ),
+                        CharacterPropertiesText(
+                          state: character.species!,
+                          property: "Species",
+                        ),
+                        CharacterPropertiesText(
+                          state: character.type!,
+                          property: "Type",
+                        ),
+                        CharacterPropertiesText(
+                          state: character.gender!,
+                          property: "Gender",
+                        ),
+                        CharacterPropertiesText(
+                          state: character.origin!.name!,
+                          property: "Origin",
+                        ),
+                        CharacterPropertiesText(
+                          state: character.location!.name!,
+                          property: "Location",
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ));
+  }
+}
+
+class CharacterPropertiesText extends StatelessWidget {
+  const CharacterPropertiesText({
+    super.key,
+    required this.state,
+    required this.property,
+  });
+
+  final String state;
+  final String property;
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Text(
+          "$property: ",
+          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        Expanded(
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Text(
+              state,
+              //  maxLines: 2,
+              // overflow: TextOverflow.fade,
+              style: const TextStyle(
+                fontSize: 20,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }
