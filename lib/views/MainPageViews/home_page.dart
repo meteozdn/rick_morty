@@ -54,7 +54,7 @@ class _HomePageState extends State<HomePage> {
             flex: 4,
             child: _isLoading
                 ? const CircularProgressIndicator.adaptive()
-                : randomCardWidget(screenWidth, _characters![8]),
+                : daysCharacterWidget(screenWidth, _characters![8]),
           ),
           const Divider(
             color: Colors.black,
@@ -67,15 +67,15 @@ class _HomePageState extends State<HomePage> {
                   _selectedIndex = index;
                 });
               },
-              controller: PageController(viewportFraction: 0.7),
+              controller: PageController(viewportFraction: 0.75),
               itemBuilder: (context, index) {
-                var _scale = _selectedIndex == index ? 1.0 : 0.8;
+                var scale = _selectedIndex == index ? 1.0 : 0.8;
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: _isLoading
                       ? const CircularProgressIndicator.adaptive()
                       : TweenAnimationBuilder(
-                          tween: Tween(begin: _scale, end: _scale),
+                          tween: Tween(begin: scale, end: scale),
                           duration: const Duration(milliseconds: 200),
                           builder: (context, value, child) {
                             return Transform.scale(
@@ -108,7 +108,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Padding randomCardWidget(double screenWidth, Character character) {
+  Padding daysCharacterWidget(double screenWidth, Character character) {
     return Padding(
       padding: RnMPaddings.mainPadding,
       child: Column(
@@ -118,7 +118,7 @@ class _HomePageState extends State<HomePage> {
           const Padding(
             padding: EdgeInsets.only(bottom: 10.0),
             child: CategoryWidget(
-              title: "RANDOM CARD",
+              title: "Day's Character",
             ),
           ),
           SizedBox(
