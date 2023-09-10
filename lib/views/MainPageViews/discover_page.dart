@@ -43,7 +43,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
       children: [
         Expanded(
             child: Padding(
-          padding: const EdgeInsets.all(15.0),
+          padding: const EdgeInsets.only(left: 15.0),
           child: Row(
             children: [
               Text(

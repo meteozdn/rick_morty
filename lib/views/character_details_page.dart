@@ -10,15 +10,42 @@ class CharacterDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(
+          actions: [
+            Padding(
+              padding: RnMPaddings.mainHorizontalPadding,
+              child: Row(
+                children: [
+                  IconButton(
+                      onPressed: () {},
+                      icon: const Icon(Icons.ios_share_outlined)),
+                  IconButton(
+                      onPressed: () {}, icon: const Icon(Icons.favorite)),
+                ],
+              ),
+            ),
+          ],
+        ),
         body: Center(
           child: Padding(
             padding: RnMPaddings.mainPadding,
             child: Column(
               children: [
                 Container(
-                  child: Image.network(character.image!),
-                )
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 5,
+                        ),
+                        borderRadius: BorderRadius.circular(8)),
+                    child: Image.network(character.image!)),
+                Padding(
+                  padding: RnMPaddings.mainTopPadding,
+                  child: Text(
+                    character.name!,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 25),
+                  ),
+                ),
               ],
             ),
           ),
