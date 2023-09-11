@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rick_morty/constants/paddings.dart';
 import 'package:rick_morty/themes/colors.dart';
 import 'package:rick_morty/views/MainPageViews/home_page.dart';
+import 'package:rick_morty/views/seafrch_page.dart';
 
 import 'MainPageViews/discover_page.dart';
 
@@ -15,7 +16,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
   final String _title = "Characters";
   late final TabController _tabController;
-
+  int _page = 0;
   @override
   void initState() {
     super.initState();
@@ -43,14 +44,18 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: FloatingActionButton(
           child: const Icon(Icons.search_outlined),
-          onPressed: () {},
+          onPressed: () {
+            setState(() {
+              _page = 3;
+            });
+          },
         ),
         bottomNavigationBar: BottomAppBar(
           shape: const CircularNotchedRectangle(),
           //  notchMargin: 5.0,
           child: _myTabView(),
         ),
-        body: _tabbarView(),
+        body: _page == 3 ? SearchPage() : _tabbarView(),
       ),
     );
   }
@@ -62,7 +67,11 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
         labelColor: RnMColors.white,
         indicatorColor: RnMColors.white,
         padding: EdgeInsets.zero,
-        onTap: (int index) {},
+        onTap: (int index) {
+          setState(() {
+            _page = index + 1;
+          });
+        },
         //  controller: _tabController,
         tabs: _MyTabViews.values
             .map((e) => Tab(text: e.name.toUpperCase()))

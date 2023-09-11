@@ -11,6 +11,8 @@ class CharacterDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          title: Text(character.name!.split(" ")[0]),
+          centerTitle: false,
           actions: [
             Padding(
               padding: RnMPaddings.mainHorizontalPadding,
@@ -61,35 +63,7 @@ class CharacterDetails extends StatelessWidget {
                   ),
                   Padding(
                     padding: RnMPaddings.mainTopPadding,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CharacterPropertiesText(
-                          state: character.status!,
-                          property: "Status",
-                        ),
-                        CharacterPropertiesText(
-                          state: character.species!,
-                          property: "Species",
-                        ),
-                        CharacterPropertiesText(
-                          state: character.type!,
-                          property: "Type",
-                        ),
-                        CharacterPropertiesText(
-                          state: character.gender!,
-                          property: "Gender",
-                        ),
-                        CharacterPropertiesText(
-                          state: character.origin!.name!,
-                          property: "Origin",
-                        ),
-                        CharacterPropertiesText(
-                          state: character.location!.name!,
-                          property: "Location",
-                        ),
-                      ],
-                    ),
+                    child: allStatusMethod(),
                   )
                 ],
               ),
@@ -97,15 +71,49 @@ class CharacterDetails extends StatelessWidget {
           ),
         ));
   }
+
+  Column allStatusMethod() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        CharacterPropertiesText(
+          isStatus: true,
+          state: character.status!,
+          property: "Status",
+        ),
+        CharacterPropertiesText(
+          state: character.species!,
+          property: "Species",
+        ),
+        CharacterPropertiesText(
+          state: character.type!,
+          property: "Type",
+        ),
+        CharacterPropertiesText(
+          state: character.gender!,
+          property: "Gender",
+        ),
+        CharacterPropertiesText(
+          state: character.origin!.name!,
+          property: "Origin",
+        ),
+        CharacterPropertiesText(
+          state: character.location!.name!,
+          property: "Location",
+        ),
+      ],
+    );
+  }
 }
 
 class CharacterPropertiesText extends StatelessWidget {
-  const CharacterPropertiesText({
+  CharacterPropertiesText({
+    this.isStatus = false,
     super.key,
     required this.state,
     required this.property,
   });
-
+  bool isStatus;
   final String state;
   final String property;
   @override
@@ -117,6 +125,12 @@ class CharacterPropertiesText extends StatelessWidget {
           "$property: ",
           style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
+        isStatus
+            ? CircleAvatar(
+                radius: 6,
+                backgroundColor: state == "Alive" ? Colors.green : Colors.red,
+              )
+            : const Text(""),
         Expanded(
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
