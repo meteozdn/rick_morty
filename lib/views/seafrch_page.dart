@@ -44,9 +44,14 @@ class _SearchPageState extends State<SearchPage> {
       padding: RnMPaddings.mainPadding,
       child: Column(
         children: [
-          const Expanded(
-            child: SearchBar(
-              leading: Icon(Icons.search),
+          Expanded(
+            child: IconButton(
+              onPressed: () {
+                showSearch(
+                    context: context,
+                    delegate: CustomSearch(characters: _characters!));
+              },
+              icon: const Icon(Icons.search),
             ),
           ),
           Expanded(
@@ -84,5 +89,78 @@ class _SearchPageState extends State<SearchPage> {
         ],
       ),
     );
+  }
+}
+
+class CustomSearch extends SearchDelegate {
+  final List<Character> characters;
+
+  CustomSearch({required this.characters});
+
+  List<String> allData = [];
+
+  getData() {
+    List<String> datas = [];
+
+    for (var character in characters) {
+      allData.add(character.name!);
+    }
+  }
+
+  @override
+  List<Widget>? buildActions(BuildContext context) {
+    return [
+      IconButton(
+          onPressed: () {
+            query:
+            "";
+          },
+          icon: const Icon(Icons.clear))
+    ];
+  }
+
+  @override
+  Widget? buildLeading(BuildContext context) {
+    return IconButton(
+        onPressed: () {
+          close(context, null);
+        },
+        icon: const Icon(Icons.arrow_back));
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    getData();
+    List<String> matchQuery = [];
+    for (var item in allData) {
+      if (item.toLowerCase().contains(query.toLowerCase())) {
+        matchQuery.add(item);
+      }
+    }
+    return ListView.builder(
+        itemCount: matchQuery.length,
+        itemBuilder: (context, index) {
+          return const ListTile(
+            title: Text("aaaa"),
+          );
+        });
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    getData();
+    List<String> matchQuery = [];
+    for (var item in allData) {
+      if (item.toLowerCase().contains(query.toLowerCase())) {
+        matchQuery.add(item);
+      }
+    }
+    return ListView.builder(
+        itemCount: matchQuery.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Text(index.toString()),
+          );
+        });
   }
 }
