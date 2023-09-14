@@ -45,13 +45,25 @@ class _SearchPageState extends State<SearchPage> {
       child: Column(
         children: [
           Expanded(
-            child: IconButton(
-              onPressed: () {
-                showSearch(
-                    context: context,
-                    delegate: CustomSearch(characters: _characters!));
-              },
-              icon: const Icon(Icons.search),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Search Character",
+                  style: Theme.of(context)
+                      .textTheme
+                      .headlineSmall!
+                      .copyWith(fontWeight: FontWeight.bold),
+                ),
+                FloatingActionButton(
+                  onPressed: () {
+                    showSearch(
+                        context: context,
+                        delegate: CustomSearch(characters: _characters!));
+                  },
+                  child: const Icon(Icons.search),
+                ),
+              ],
             ),
           ),
           Expanded(
