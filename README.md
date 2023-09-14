@@ -15,4 +15,4 @@ The purpose of this project is to list all characters, perform searches, and dis
 <img src="https://github.com/meteozdn/rick_morty/blob/main/Screenshots/charactersDetailsPage.png" width="400" height="800" />
 
 ### Search Page
-<img src="https://github.com/meteozdn/rick_morty/blob/main/Screenshots/searchPage.png" width="400" height="800" /> <img src="https://github.com/meteozdn/rick_morty/blob/main/Screenshots/searchPage2.png" width="400" height="800" /> <img src="https://github.com/meteozdn/rick_morty/blob/main/Screenshots/searchPage3.png" width="400" height="800" />
+<img src="https://github.com/meteozdn/rick_morty/blob/main/Screenshots/searchPage.png" width="400" height="800" /> <img src="https://github.com/meteozdn/rick_morty/blob/main/Screenshots/searchPage2.png" width="400" height="800" /> <img src="https://github.com/meteozdn/rick_morty/blob/main/Screenshots/SearchPage3.png" width="400" height="800" />
