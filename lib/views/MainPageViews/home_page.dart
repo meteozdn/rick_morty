@@ -7,6 +7,7 @@ import 'package:rick_morty/services/services_get.dart';
 import 'package:rick_morty/themes/colors.dart';
 
 import '../../services/character_model.dart';
+import '../character_details_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -54,7 +55,8 @@ class _HomePageState extends State<HomePage> {
             flex: 4,
             child: _isLoading
                 ? const CircularProgressIndicator.adaptive()
-                : daysCharacterWidget(screenWidth, _characters![8]),
+                : daysCharacterWidget(
+                    screenWidth, _characters![8], "Day's Character"),
           ),
           const Divider(
             color: Colors.black,
@@ -93,8 +95,21 @@ class _HomePageState extends State<HomePage> {
                                         width: 5,
                                       ),
                                       borderRadius: BorderRadius.circular(8)),
-                                  child: Image.network(
-                                      _characters![index].image!)),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                CharacterDetails(
+                                                  character:
+                                                      _characters![index],
+                                                )),
+                                      );
+                                    },
+                                    child: Image.network(
+                                        _characters![index].image!),
+                                  )),
                             ],
                           ),
                         ),
@@ -108,17 +123,18 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Padding daysCharacterWidget(double screenWidth, Character character) {
+  Padding daysCharacterWidget(
+      double screenWidth, Character character, String title) {
     return Padding(
       padding: RnMPaddings.mainPadding,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           //TODOdüzelecek
-          const Padding(
-            padding: EdgeInsets.only(bottom: 10.0),
+          Padding(
+            padding: RnMPaddings.mainBotPadding / 2,
             child: CategoryWidget(
-              title: "Day's Character",
+              title: title,
             ),
           ),
           SizedBox(

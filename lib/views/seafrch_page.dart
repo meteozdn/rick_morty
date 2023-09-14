@@ -45,23 +45,40 @@ class _SearchPageState extends State<SearchPage> {
       child: Column(
         children: [
           Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: Stack(
+              alignment: Alignment.center,
               children: [
-                Text(
-                  "Search Character",
-                  style: Theme.of(context)
-                      .textTheme
-                      .headlineSmall!
-                      .copyWith(fontWeight: FontWeight.bold),
+                Container(
+                  decoration: const ShapeDecoration(
+                    color: RnMColors.paleCornflowerBlue,
+                    shape: StadiumBorder(),
+                  ),
                 ),
-                FloatingActionButton(
-                  onPressed: () {
-                    showSearch(
-                        context: context,
-                        delegate: CustomSearch(characters: _characters!));
-                  },
-                  child: const Icon(Icons.search),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Text(
+                      "Search Character",
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineSmall!
+                          .copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: RnMColors.white),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        showSearch(
+                            context: context,
+                            delegate: CustomSearch(characters: _characters!));
+                      },
+                      icon: const Icon(
+                        Icons.search,
+                        size: 30,
+                        color: RnMColors.white,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
