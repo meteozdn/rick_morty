@@ -95,20 +95,22 @@ class _SearchPageState extends State<SearchPage> {
 class CustomSearch extends SearchDelegate {
   final List<Character> characters;
 
-  CustomSearch({required this.characters});
+  CustomSearch({
+    required this.characters,
+  });
 
   List<String> allData = [];
 
   getData() {
-    List<String> datas = [];
-
     for (var character in characters) {
       allData.add(character.name!);
     }
+    allData = allData.toSet().toList();
   }
 
   @override
   List<Widget>? buildActions(BuildContext context) {
+    getData();
     return [
       IconButton(
           onPressed: () {
@@ -130,28 +132,10 @@ class CustomSearch extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    getData();
-    List<String> matchQuery = [];
-    for (var item in allData) {
-      if (item.toLowerCase().contains(query.toLowerCase())) {
-        matchQuery.add(item);
-      }
-    }
-    return ListView.builder(
-        itemCount: matchQuery.length,
-        itemBuilder: (context, index) {
-          return const ListTile(
-            title: Text("aaaa"),
-          );
-        });
-  }
-
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    getData();
-    List<String> matchQuery = [];
-    for (var item in allData) {
-      if (item.toLowerCase().contains(query.toLowerCase())) {
+    // getData();
+    List<Character> matchQuery = [];
+    for (var item in characters) {
+      if (item.name!.toLowerCase().contains(query.toLowerCase())) {
         matchQuery.add(item);
       }
     }
@@ -159,7 +143,46 @@ class CustomSearch extends SearchDelegate {
         itemCount: matchQuery.length,
         itemBuilder: (context, index) {
           return ListTile(
-            title: Text(index.toString()),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => CharacterDetails(
+                          character: matchQuery[index],
+                        )),
+              );
+            },
+            leading: Image.network(matchQuery[index].image!),
+            title: Text(matchQuery[index].name!),
+          );
+        });
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+//    getData();
+    List<Character> matchQuery = [];
+    for (var item in characters) {
+      if (item.name!.toLowerCase().contains(query.toLowerCase())) {
+        matchQuery.add(item);
+      }
+    }
+    return ListView.builder(
+        itemCount: matchQuery.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => CharacterDetails(
+                          character: matchQuery[index],
+                        )),
+              );
+            },
+            leading:
+                CircleAvatar(child: Image.network(matchQuery[index].image!)),
+            title: Text(matchQuery[index].name!),
           );
         });
   }
