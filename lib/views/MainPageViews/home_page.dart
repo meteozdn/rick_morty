@@ -18,7 +18,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool _isLoading = false;
-  String _unkown = "UNKOWN";
+  String _unkown = "UNKsOWN";
   int _selectedIndex = 0;
 
   List<Character>? _characters = [];
